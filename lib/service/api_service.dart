@@ -41,4 +41,17 @@ class ApiService {
       throw Exception("Failed to load searched recipes");
     }
   }
+
+  Future<List<String>> fetchRecipeTags() async {
+    final response = await http.get(
+      Uri.parse("https://dummyjson.com/recipes/tags"),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> tags = jsonDecode(response.body);
+      return tags.map((tag) => tag.toString()).toList();
+    } else {
+      throw Exception("Failed to load recipe tags");
+    }
+  }
 }
