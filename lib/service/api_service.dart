@@ -28,4 +28,17 @@ class ApiService {
       throw Exception("Failed to get recipe detail");
     }
   }
+
+  Future<List<Recipe>> searchRecipe(String query) async {
+    final response = await http.get(
+      Uri.parse("https://dummyjson.com/recipes/search?q=$query"),
+    );
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final List<dynamic> searchResult = jsonData['recipes'];
+      return searchResult.map((json) => Recipe.fromJson(json)).toList();
+    } else {
+      throw Exception("Failed to load searched recipes");
+    }
+  }
 }
