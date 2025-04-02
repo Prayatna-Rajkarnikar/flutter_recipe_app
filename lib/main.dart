@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:is_wear/is_wear.dart';
 import 'package:recipe_app/screens/recipe_list_screen.dart';
+import 'package:recipe_app/screens/wear_recipe_tags.dart';
 
-void main() {
+late final bool isWear;
+
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // isWear = (await IsWear().check()) ?? false;
+
   runApp(
-    const MaterialApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RecipeListScreen(),
+      // home: isWear ? WearRecipeTags() : RecipeListScreen(),
+          home: RecipeListScreen(),
     ),
   );
 }

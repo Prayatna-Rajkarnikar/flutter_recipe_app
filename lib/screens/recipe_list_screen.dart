@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/model/recipe.dart';
 import 'package:recipe_app/screens/recipe_detail_screen.dart';
 import 'package:recipe_app/service/api_service.dart';
+import 'package:watch_connectivity/watch_connectivity.dart';
 
 class RecipeListScreen extends StatefulWidget {
   const RecipeListScreen({super.key});
@@ -15,12 +16,21 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
   late Future<List<String>> recipeTags;
   String? selectedTag;
   TextEditingController searchController = TextEditingController();
+  final WatchConnectivity _watchConnectivity = WatchConnectivity();
 
   @override
   void initState() {
     super.initState();
     recipes = ApiService().fetchRecipes();
     recipeTags = ApiService().fetchRecipeTags();
+
+    _watchConnectivity.messageStream.listen((message) {
+      if (message.containsKey('selectedTag')) {
+        String selectedTag = message['selectedTag'];
+        print("Received tag from Wear OS: $selectedTag");
+        _filterByTag(selectedTag);
+      }
+    });
   }
 
   void _searchRecipe(String query) {
