@@ -54,4 +54,11 @@ class ApiService {
       throw Exception("Failed to load recipe tags");
     }
   }
+  Future<List<Recipe>> filterRecipesByTag(String tag) async {
+    final allRecipes = await fetchRecipes(); // fetch all
+    return allRecipes.where((recipe) => recipe.tags.contains(tag)).toList();
+  }
 }
+
+
+

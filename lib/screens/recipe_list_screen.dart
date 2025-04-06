@@ -42,10 +42,14 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
   void _filterByTag(String tag) {
     setState(() {
       selectedTag = tag;
-      recipes = ApiService().searchRecipe(tag);
-      Navigator.pop(context);
+      recipes = ApiService().filterRecipesByTag(tag);
     });
+
+    if (Scaffold.of(context).isEndDrawerOpen) {
+      Navigator.pop(context); // close drawer if open
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
